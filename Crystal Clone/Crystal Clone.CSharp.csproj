@@ -74,8 +74,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DyingScript.cs" />
     <Compile Include="Assets\EatFish.cs" />
-    <Compile Include="Assets\ITriggerListener.cs" />
+    <Compile Include="Assets\ITriggerEnter.cs" />
+    <Compile Include="Assets\ITriggerExit.cs" />
     <Compile Include="Assets\MouseMove.cs" />
   </ItemGroup>
   <ItemGroup>

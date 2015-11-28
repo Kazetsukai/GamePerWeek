@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class EatFish : MonoBehaviour, ITriggerListener {
+public class EatFish : MonoBehaviour, ITriggerEnter {
 
     public void OnTriggerEnter(Collider other)
     {

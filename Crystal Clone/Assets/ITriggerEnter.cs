@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public interface ITriggerListener
+public interface ITriggerEnter
 {
     void OnTriggerEnter(Collider other);
 }
