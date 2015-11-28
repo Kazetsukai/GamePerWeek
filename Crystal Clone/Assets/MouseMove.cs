@@ -2,37 +2,31 @@
 using System.Collections;
 
 public class MouseMove : MonoBehaviour {
-
-    Vector3 _oldMousePos;
-    Vector3 _velocity;
-    bool _firstFrame = true;
-
-    Quaternion _oldRotation;
-
-    CharacterController _controller;
+    private Animator _animator;
+    Rigidbody _rigidbody;
 
 	// Use this for initialization
 	void Start () {
-        _oldRotation = transform.localRotation;
-        _controller = GetComponent<CharacterController>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        var mousePos = Input.mousePosition;
-
-        var delta = mousePos - _oldMousePos;
-        delta /= 2000;
-        delta.z = delta.y;
-        delta.y = 0;
-
-        _velocity += delta;
+        var delta = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+        delta /= 3;
         
-        _controller.Move(_velocity);
-        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.LookRotation(_velocity.normalized, Vector3.up), 10);
+        // Stopping power
+        //if (Vector3.Dot(delta, _rigidbody.velocity) < -0.0f)
+        //    delta *= 3f;
 
-        _oldMousePos = mousePos;
+        _rigidbody.AddForce(delta, ForceMode.VelocityChange);
+        if (_rigidbody.velocity.magnitude > 0.000001f)
+            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.LookRotation(_rigidbody.velocity.normalized, Vector3.up), 10);
+
+        _animator.SetFloat("Speed", _rigidbody.velocity.magnitude * 10);
+        Debug.Log(_rigidbody.velocity.magnitude * 10);
 	}
 }
