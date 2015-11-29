@@ -12,6 +12,9 @@ public class DyingScript : MonoBehaviour, ITriggerExit, ITriggerEnter
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
 
+    public GameObject Splash;
+    private SoundPlayer _soundPlayer;
+
     public void OnTriggerEnter(Collider other)
     {
         if (!_dying)
@@ -21,8 +24,8 @@ public class DyingScript : MonoBehaviour, ITriggerExit, ITriggerEnter
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GetComponent<MouseMove>().enabled = false;
 
-
-                // Meow
+                _soundPlayer.PlayDie();
+                
                 Die();
             }
         }
@@ -39,7 +42,9 @@ public class DyingScript : MonoBehaviour, ITriggerExit, ITriggerEnter
         }
         else if (other.gameObject.name == "Water")
         {
-            // Splash
+            var splash = (GameObject)Instantiate(Splash, transform.position, Splash.transform.localRotation);
+            splash.GetComponent<ParticleSystem>().Play();
+            _soundPlayer.PlaySplash();
             Die();
         }
     }
@@ -49,7 +54,8 @@ public class DyingScript : MonoBehaviour, ITriggerExit, ITriggerEnter
         _renderers = GetComponentsInChildren<Renderer>();
         _initialPosition = transform.localPosition;
         _initialRotation = transform.localRotation;
-	}
+        _soundPlayer = FindObjectOfType<SoundPlayer>();
+    }
 	
 	// Update is called once per frame
 	void Update () {

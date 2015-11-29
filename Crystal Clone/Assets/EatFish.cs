@@ -5,6 +5,7 @@ using System;
 public class EatFish : MonoBehaviour, ITriggerEnter {
 
     public LevelController LevelController;
+    private SoundPlayer _soundPlayer;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -19,6 +20,8 @@ public class EatFish : MonoBehaviour, ITriggerEnter {
             Destroy(obj);
 
             LevelController.CheckVictory();
+
+            _soundPlayer.PlayNom();
         }
     }
 
@@ -31,8 +34,8 @@ public class EatFish : MonoBehaviour, ITriggerEnter {
 
     // Use this for initialization
     void Start () {
-	
-	}
+        _soundPlayer = FindObjectOfType<SoundPlayer>();
+    }
 	
 	// Update is called once per frame
 	void Update () {

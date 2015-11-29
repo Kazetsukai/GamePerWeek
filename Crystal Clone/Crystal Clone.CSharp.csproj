@@ -81,6 +81,7 @@
     <Compile Include="Assets\ITriggerExit.cs" />
     <Compile Include="Assets\LevelController.cs" />
     <Compile Include="Assets\MouseMove.cs" />
+    <Compile Include="Assets\SoundPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Kitten\Shaders\Alpha-Diffuse.shader" />

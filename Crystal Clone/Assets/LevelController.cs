@@ -17,12 +17,14 @@ public class LevelController : MonoBehaviour {
 
     bool _levelFinishing;
     float _levelTransitionTimeRemaining;
+    private SoundPlayer _soundPlayer;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         _icebergScale = Iceberg.transform.localScale.x;
         _centerOfIceberg = Iceberg.transform.position + new Vector3(0, Iceberg.transform.localScale.y / 2, 0);
         _spawnPosition = Cat.transform.position;
+        _soundPlayer = FindObjectOfType<SoundPlayer>();
 
         StartNextLevel();
 	}
@@ -84,6 +86,8 @@ public class LevelController : MonoBehaviour {
         {
             SpawnObjectOnIceberg(ProtoFish);
         }
+
+        _soundPlayer.PlayLevelUp();
     }
 
     private void SpawnObjectOnIceberg(GameObject protoObj)
