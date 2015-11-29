@@ -4,6 +4,8 @@ using System;
 
 public class EatFish : MonoBehaviour, ITriggerEnter {
 
+    public LevelController LevelController;
+
     public void OnTriggerEnter(Collider other)
     {
         var obj = FindRoot(other.gameObject.transform);
@@ -11,7 +13,12 @@ public class EatFish : MonoBehaviour, ITriggerEnter {
         if (obj.name.StartsWith("cruscarp"))
         {
             // Eat fish
+            foreach (var col in obj.GetComponentsInChildren<Collider>())
+                col.enabled = false;
+
             Destroy(obj);
+
+            LevelController.CheckVictory();
         }
     }
 

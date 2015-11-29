@@ -27,6 +27,5 @@ public class MouseMove : MonoBehaviour {
             transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.LookRotation(_rigidbody.velocity.normalized, Vector3.up), 10);
 
         _animator.SetFloat("Speed", _rigidbody.velocity.magnitude * 10);
-        Debug.Log(_rigidbody.velocity.magnitude * 10);
 	}
 }

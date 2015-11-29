@@ -129,13 +129,155 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: IdleSit
+      takeName: IdleSit
+      firstFrame: 1
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 6.25
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: kittenRoot
+        weight: 1
+      - path: kittenRoot/Hips
+        weight: 1
+      - path: kittenRoot/Hips/BellyVolume
+        weight: 1
+      - path: kittenRoot/Hips/LeftUpLeg
+        weight: 1
+      - path: kittenRoot/Hips/LeftUpLeg/LeftLeg
+        weight: 1
+      - path: kittenRoot/Hips/LeftUpLeg/LeftLeg/LeftFoot
+        weight: 1
+      - path: kittenRoot/Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase
+        weight: 1
+      - path: kittenRoot/Hips/LeftUpLeg/LeftLeg/LeftFoot/LeftToeBase/LeftFootIndex1
+        weight: 1
+      - path: kittenRoot/Hips/RightUpLeg
+        weight: 1
+      - path: kittenRoot/Hips/RightUpLeg/RightLeg
+        weight: 1
+      - path: kittenRoot/Hips/RightUpLeg/RightLeg/RightFoot
+        weight: 1
+      - path: kittenRoot/Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase
+        weight: 1
+      - path: kittenRoot/Hips/RightUpLeg/RightLeg/RightFoot/RightToeBase/RightFootIndex1
+        weight: 1
+      - path: kittenRoot/Hips/Spine
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/ChestVolume
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftForeArm
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftForeArm/LeftHand
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/LeftShoulder/LeftArm/LeftForeArm/LeftHand/LeftFingerBase
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/Jaw
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftCheek
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftEar1
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftEar1/LeftEar2
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftEye
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftEyeBottomLid
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftEyeUpperLid
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/LeftHeadVolume
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightCheek
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightEar1
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightEar1/RightEar2
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightEye
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightEyeBottomLid
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightEyeUpperLid
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/RightHeadVolume
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/Tontue
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/Tontue/Tontue1
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/Tontue/Tontue1/Tontue2
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/Neck/Head/TopHeadVolume
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightForeArm
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightForeArm/RightHand
+        weight: 1
+      - path: kittenRoot/Hips/Spine/Spine1/Spine2/Spine3/RightShoulder/RightArm/RightForeArm/RightHand/RightFingerBase
+        weight: 1
+      - path: kittenRoot/Hips/Tail1
+        weight: 1
+      - path: kittenRoot/Hips/Tail1/Tail2
+        weight: 1
+      - path: kittenRoot/Hips/Tail1/Tail2/Tail3
+        weight: 1
+      - path: kittenRoot/Hips/Tail1/Tail2/Tail3/Tail4
+        weight: 1
+      - path: kittenRoot/Hips/Tail1/Tail2/Tail3/Tail4/Tail5
+        weight: 1
+      - path: kittenRoot/Hips/Tail1/Tail2/Tail3/Tail4/Tail5/Tail6
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -172,8 +314,10 @@ ModelImporter:
     legStretch: .0500000007
     feetSpacing: 0
     rootMotionBoneName: kittenRoot
+    hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
+  humanoidOversampling: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
