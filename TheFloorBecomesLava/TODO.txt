@@ -1,0 +1,4 @@
+* Maze generation
+* Player movement
+* Ending objective
+* Lava
