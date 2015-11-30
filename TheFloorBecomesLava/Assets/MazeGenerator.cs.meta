@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: f3b4a49e5f118c644a34926193e2df63
+timeCreated: 1448904538
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - ProtoWall: {fileID: 111994, guid: 7b75139b5b12ccd4da6124e18f6537bc, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
