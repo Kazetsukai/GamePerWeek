@@ -1,4 +1,9 @@
 * Maze generation
 * Player movement
-* Ending objective
+* Ending objective, door - trigger more maze
+* Limit maze to segments, leave last segment in place for lava to flow through
 * Lava
+* Sounds
+* Music
+* Powerups - speedup, stop lava
+* Score
