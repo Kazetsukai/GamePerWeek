@@ -8,6 +8,16 @@
     public Edge Up { get { return new Edge(this, new Pos() { X = X, Y = Y + 1 }); } }
     public Edge Down { get { return new Edge(this, new Pos() { X = X, Y = Y - 1 }); } }
 
+    public Pos()
+    {
+    }
+
+    public Pos(Pos other)
+    {
+        X = other.X;
+        Y = other.Y;
+    }
+
     public override bool Equals(object obj)
     {
         if (obj is Pos)
@@ -17,5 +27,10 @@
         }
 
         return base.Equals(obj);
+    }
+
+    public override string ToString()
+    {
+        return string.Format("[{0}, {1}]", X, Y);
     }
 }
