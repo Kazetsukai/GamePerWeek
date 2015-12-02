@@ -8,9 +8,10 @@ using Rand = UnityEngine.Random;
 public class MazeGenerator : MonoBehaviour
 {
 
-    public const float BlockScale = 0.3f;
+    public const float BlockScale = 0.2f;
 
     public GameObject ProtoWall;
+    public GameObject Player;
 
     public GameObject[,] _wallGrid;
     public bool[,] _inMaze;
@@ -25,6 +26,9 @@ public class MazeGenerator : MonoBehaviour
     void Start()
     {
         InitialiseGrid();
+
+        GenerateMaze(new Pos() { X = 0, Y = 0 });
+        Player.transform.localPosition = WallCoordToReal(1, 1);
     }
 
     private void InitialiseGrid()
@@ -42,13 +46,16 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int y = 0; y < _height; y++)
             {
-                _wallGrid[x, y] = (GameObject)Instantiate(ProtoWall, new Vector3(x - _width / 2, 0, y - _height / 2) * BlockScale, Quaternion.identity);
+                _wallGrid[x, y] = (GameObject)Instantiate(ProtoWall, WallCoordToReal(x, y), Quaternion.identity);
                 _wallGrid[x, y].transform.localScale = new Vector3(BlockScale, BlockScale, BlockScale);
                 _wallGrid[x, y].SendMessage("Rise");
             }
         }
+    }
 
-        GenerateMaze(new Pos() { X = 0, Y = 0 });
+    public Vector3 WallCoordToReal(int x, int y)
+    {
+        return new Vector3(x - _width / 2, 0, y - _height / 2) * BlockScale;
     }
 
     // Update is called once per frame
@@ -66,7 +73,7 @@ public class MazeGenerator : MonoBehaviour
         var edges = new SortedList<float, Edge>();
         Func<Pos, float> value = p =>
         {
-            return Rand.Range(1f, (_abstractHeight + _abstractWidth) * 2)
+            return Rand.Range(1f, 20f)
                     + Math.Abs(start.X - p.X)
                     + Math.Abs(start.Y - p.Y);
         };
@@ -89,7 +96,7 @@ public class MazeGenerator : MonoBehaviour
             edges.RemoveAt(0);
 
             // If the position is inside the maze bounds, but not already part of the maze, then add it
-            if (insideMaze(nextPos) && !_inMaze[nextPos.X, nextPos.Y])
+            if (insideMaze(nextPos) && !_inMaze[nextPos.X, nextPos.Y] && value(nextPos) < 20)
             {
                 _inMaze[nextPos.X, nextPos.Y] = true;
                 mazeSegment.Add(nextEdge);
