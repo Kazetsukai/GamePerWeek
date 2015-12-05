@@ -87,6 +87,11 @@ public class MazeGenerator : MonoBehaviour
 
     private void GenerateMaze(Pos start)
     {
+        if (_mazeSegments.Count > 1)
+        {
+            RemoveFirstSegment();
+        }
+
         var mazeSegment = new List<Edge>();
 
         _inMaze[start.X, start.Y] = true;
@@ -130,9 +135,14 @@ public class MazeGenerator : MonoBehaviour
                 var from = AbstractToWall(nextEdge.From);
                 var to = AbstractToWall(nextEdge.To);
                 var mid = new Pos() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2 };
-                
+
+                _wallGrid[from.X, from.Y].Delay = GenerateDelay(AbstractToWall(start), from);
                 _wallGrid[from.X, from.Y].Drop();
+
+                _wallGrid[mid.X, mid.Y].Delay = GenerateDelay(AbstractToWall(start), mid);
                 _wallGrid[mid.X, mid.Y].Drop();
+
+                _wallGrid[to.X, to.Y].Delay = GenerateDelay(AbstractToWall(start), to);
                 _wallGrid[to.X, to.Y].Drop();
             }
         }
@@ -153,11 +163,46 @@ public class MazeGenerator : MonoBehaviour
         _goal.transform.position = WallCoordToReal(_goalPos) + (Vector3.up * BlockScale / 2);
 
         _mazeSegments.Add(mazeSegment);
+
+    }
+
+    private void RemoveFirstSegment()
+    {
+        if (_mazeSegments.Count == 0)
+            return;
+
+        var segment = _mazeSegments[0];
+        _mazeSegments.RemoveAt(0);
+
+        foreach (var edge in segment)
+        {
+            _inMaze[edge.From.X, edge.From.Y] = false;
+            _inMaze[edge.To.X, edge.To.Y] = false;
+
+            var from = AbstractToWall(edge.From);
+            var to = AbstractToWall(edge.To);
+            var mid = new Pos() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2 };
+            _wallGrid[from.X, from.Y].Rise();
+            _wallGrid[mid.X, mid.Y].Rise();
+            _wallGrid[to.X, to.Y].Rise();
+        }
+    }
+
+    private float GenerateDelay(Pos start, Pos to)
+    {
+        var dist = (float)Math.Sqrt(Math.Pow(start.X - to.X, 2) + Math.Pow(start.Y - to.Y, 2));
+
+        return (dist - 5) / 20f * Rand.Range(0f, 1f);
     }
 
     private Pos AbstractToWall(Pos pos)
     {
         return new Pos(pos.X * 2 + 1, pos.Y * 2 + 1);
+    }
+
+    private Pos WallToAbstract(Pos pos)
+    {
+        return new Pos((pos.X - 1) / 2, (pos.Y - 1) / 2);
     }
 
     public bool IsCorridor(Pos pos)
@@ -173,7 +218,8 @@ public class MazeGenerator : MonoBehaviour
     {
         if (pos.Equals(_goalPos))
         {
-            Debug.Log("Woop woop!");
+            GenerateMaze(WallToAbstract(_goalPos));
         }
     }
+
 }
