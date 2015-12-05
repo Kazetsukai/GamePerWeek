@@ -2,25 +2,28 @@
 using System.Collections;
 using System;
 
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : MonoBehaviour
+{
 
     public MazeGenerator MazeGenerator;
-    public Pos TargetLocation = new Pos(3, 1);
-    public Pos Location = new Pos(1, 1);
-    public float MoveSpeed = 5;
+    public Pos TargetLocation = new Pos(1, 1, 0);
+    public Pos Location = new Pos(1, 1, 0);
+    public float MoveSpeed;
 
     float _moveProgress = 0;
     bool _moving = true;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         transform.localScale = new Vector3(MazeGenerator.BlockScale * 0.8f, MazeGenerator.BlockScale * 0.8f, MazeGenerator.BlockScale * 0.8f);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void FixedUpdate()
     {
@@ -28,7 +31,7 @@ public class PlayerScript : MonoBehaviour {
         {
             _moveProgress += Time.fixedDeltaTime * MoveSpeed;
 
-            var moveAmount = _moveProgress;
+            var moveAmount = Mathf.Clamp(_moveProgress, 0, 1);
             var to = MazeGenerator.WallCoordToReal(TargetLocation) + Vector3.up * MazeGenerator.BlockScale / 2;
             var from = MazeGenerator.WallCoordToReal(Location) + Vector3.up * MazeGenerator.BlockScale / 2;
 
@@ -40,9 +43,9 @@ public class PlayerScript : MonoBehaviour {
                 MazeGenerator.CheckGoal(Location);
             }
             transform.localPosition = (to * (moveAmount) + from * (1 - moveAmount));
-
         }
-        else
+
+        if (!_moving)
         {
             if (Input.GetAxis("Horizontal") > 0) { Move(Location.Right.To); }
             if (Input.GetAxis("Horizontal") < 0) { Move(Location.Left.To); }

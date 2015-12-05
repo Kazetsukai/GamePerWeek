@@ -27,6 +27,8 @@ public class MazeGenerator : MonoBehaviour
     private Pos _goalPos;
     private GameObject _goal;
 
+    public static float LavaSpeed { get { return 1f + Time.fixedTime * 0.01f; } }
+
     Func<Pos, bool> insideMaze;
 
     // Use this for initialization
@@ -34,8 +36,18 @@ public class MazeGenerator : MonoBehaviour
     {
         InitialiseGrid();
 
-        GenerateMaze(new Pos() { X = 0, Y = 0 });
+        GenerateMaze(new Pos(0, 0, 0));
+        DelayLava(5);
+
         Player.transform.localPosition = WallCoordToReal(1, 1);
+    }
+
+    private void DelayLava(float delay)
+    {
+        foreach (WallBlock wall in _wallGrid)
+        {
+            wall.LavaTime += delay;
+        }
     }
 
     private void InitialiseGrid()
@@ -92,6 +104,10 @@ public class MazeGenerator : MonoBehaviour
             RemoveFirstSegment();
         }
 
+        // Set distance to updated lavatime
+        var wall = AbstractToWall(start);
+        start.Distance = _wallGrid[wall.X, wall.Y].LavaTime;
+
         var mazeSegment = new List<Edge>();
 
         _inMaze[start.X, start.Y] = true;
@@ -134,19 +150,33 @@ public class MazeGenerator : MonoBehaviour
                 // Lower appropriate blocks
                 var from = AbstractToWall(nextEdge.From);
                 var to = AbstractToWall(nextEdge.To);
-                var mid = new Pos() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2 };
+                var mid = new Pos((from.X + to.X) / 2, (from.Y + to.Y) / 2, (from.Distance + to.Distance) / 2);
 
                 _wallGrid[from.X, from.Y].Delay = GenerateDelay(AbstractToWall(start), from);
+                _wallGrid[from.X, from.Y].LavaTime = from.Distance;
                 _wallGrid[from.X, from.Y].Drop();
 
                 _wallGrid[mid.X, mid.Y].Delay = GenerateDelay(AbstractToWall(start), mid);
+                _wallGrid[mid.X, mid.Y].LavaTime = mid.Distance;
                 _wallGrid[mid.X, mid.Y].Drop();
 
                 _wallGrid[to.X, to.Y].Delay = GenerateDelay(AbstractToWall(start), to);
+                _wallGrid[to.X, to.Y].LavaTime = to.Distance;
                 _wallGrid[to.X, to.Y].Drop();
             }
         }
 
+        var max = GetMax(start, mazeSegment);
+
+        _goalPos = AbstractToWall(max);
+        _goal.transform.position = WallCoordToReal(_goalPos) + (Vector3.up * BlockScale / 2);
+
+        _mazeSegments.Add(mazeSegment);
+
+    }
+
+    private Pos GetMax(Pos start, List<Edge> mazeSegment)
+    {
         var maxDist = 0.0;
         var max = start;
         foreach (var m in mazeSegment)
@@ -159,11 +189,7 @@ public class MazeGenerator : MonoBehaviour
             }
         }
 
-        _goalPos = AbstractToWall(max);
-        _goal.transform.position = WallCoordToReal(_goalPos) + (Vector3.up * BlockScale / 2);
-
-        _mazeSegments.Add(mazeSegment);
-
+        return max;
     }
 
     private void RemoveFirstSegment()
@@ -174,17 +200,55 @@ public class MazeGenerator : MonoBehaviour
         var segment = _mazeSegments[0];
         _mazeSegments.RemoveAt(0);
 
+        if (segment.Count == 0)
+            return;
+
+        var goal = GetMax(segment[0].From, segment);
+
         foreach (var edge in segment)
         {
-            _inMaze[edge.From.X, edge.From.Y] = false;
-            _inMaze[edge.To.X, edge.To.Y] = false;
-
             var from = AbstractToWall(edge.From);
             var to = AbstractToWall(edge.To);
             var mid = new Pos() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2 };
             _wallGrid[from.X, from.Y].Rise();
             _wallGrid[mid.X, mid.Y].Rise();
-            _wallGrid[to.X, to.Y].Rise();
+            
+            _inMaze[edge.From.X, edge.From.Y] = false;
+
+            if (!edge.To.Equals(goal))
+            {
+                _inMaze[edge.To.X, edge.To.Y] = false;
+                _wallGrid[to.X, to.Y].Rise();
+            }
+        }
+
+        var goalWall = AbstractToWall(goal);
+        
+        var time = _wallGrid[goalWall.X, goalWall.Y].LavaTime;
+        time -= 3;
+        if (time < 0)
+            time = 0;
+
+        Debug.Log(time);
+
+        // Let the lava catch up a bit
+        foreach (var seg in _mazeSegments)
+        {
+            if (seg.Count == 0)
+                continue;
+
+            var firstFrom = AbstractToWall(seg[0].From);
+            _wallGrid[firstFrom.X, firstFrom.Y].LavaTime -= time;
+
+            foreach (var edge in seg)
+            {
+                var from = AbstractToWall(edge.From);
+                var to = AbstractToWall(edge.To);
+                var mid = new Pos() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2 };
+
+                _wallGrid[mid.X, mid.Y].LavaTime -= time;
+                _wallGrid[to.X, to.Y].LavaTime -= time;
+            }
         }
     }
 
@@ -197,12 +261,12 @@ public class MazeGenerator : MonoBehaviour
 
     private Pos AbstractToWall(Pos pos)
     {
-        return new Pos(pos.X * 2 + 1, pos.Y * 2 + 1);
+        return new Pos(pos.X * 2 + 1, pos.Y * 2 + 1, pos.Distance);
     }
 
     private Pos WallToAbstract(Pos pos)
     {
-        return new Pos((pos.X - 1) / 2, (pos.Y - 1) / 2);
+        return new Pos((pos.X - 1) / 2, (pos.Y - 1) / 2, pos.Distance);
     }
 
     public bool IsCorridor(Pos pos)
@@ -218,7 +282,8 @@ public class MazeGenerator : MonoBehaviour
     {
         if (pos.Equals(_goalPos))
         {
-            GenerateMaze(WallToAbstract(_goalPos));
+            var startPos = WallToAbstract(pos);
+            GenerateMaze(startPos);
         }
     }
 

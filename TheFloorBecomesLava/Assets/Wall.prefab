@@ -87,6 +87,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c437531635c99d47aeed3d54564ac81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Delay: 0
+  Ground: {fileID: 2100000, guid: 9771a70027126b5489a93ca6645568b2, type: 2}
+  Wall: {fileID: 2100000, guid: 95906cd2fbf9f1941954b86af8677664, type: 2}
+  Lava: {fileID: 2100000, guid: d6aadb8bf42480b47bea4bdfe4d6221b, type: 2}
+  AlmostLava: {fileID: 2100000, guid: b21b114ccef9bc84291bd9028cdf0aeb, type: 2}
+  LavaTime: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -102,6 +108,14 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Wall
+      value: 
+      objectReference: {fileID: 2100000, guid: 95906cd2fbf9f1941954b86af8677664, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Ground
+      value: 
+      objectReference: {fileID: 2100000, guid: 9771a70027126b5489a93ca6645568b2, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 111994}

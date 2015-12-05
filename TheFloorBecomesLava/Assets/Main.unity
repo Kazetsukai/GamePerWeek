@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MazeGenerator: {fileID: 1819943706}
-  MoveSpeed: 5
+  MoveSpeed: 7
 --- !u!1 &1819943705
 GameObject:
   m_ObjectHideFlags: 0
