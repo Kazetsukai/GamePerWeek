@@ -1,28 +1,62 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerScript : MonoBehaviour {
 
     public MazeGenerator MazeGenerator;
+    public Pos TargetLocation = new Pos(3, 1);
+    public Pos Location = new Pos(1, 1);
+    public float MoveSpeed = 5;
+
+    float _moveProgress = 0;
+    bool _moving = true;
 
 	// Use this for initialization
 	void Start () {
-        transform.localScale = new Vector3(MazeGenerator.BlockScale, MazeGenerator.BlockScale, MazeGenerator.BlockScale);
+        transform.localScale = new Vector3(MazeGenerator.BlockScale * 0.8f, MazeGenerator.BlockScale * 0.8f, MazeGenerator.BlockScale * 0.8f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        
 	}
 
     void FixedUpdate()
     {
-        if (Input.GetAxis("Horizontal") > 0) ShiftPlayer(1, 0, 0);
+        if (_moving)
+        {
+            _moveProgress += Time.fixedDeltaTime * MoveSpeed;
+
+            var moveAmount = _moveProgress;
+            var to = MazeGenerator.WallCoordToReal(TargetLocation) + Vector3.up * MazeGenerator.BlockScale / 2;
+            var from = MazeGenerator.WallCoordToReal(Location) + Vector3.up * MazeGenerator.BlockScale / 2;
+
+            if (_moveProgress >= 1)
+            {
+                _moving = false;
+                _moveProgress -= 1;
+                Location = TargetLocation;
+                MazeGenerator.CheckGoal(Location);
+            }
+            transform.localPosition = (to * (moveAmount) + from * (1 - moveAmount));
+
+        }
+        else
+        {
+            if (Input.GetAxis("Horizontal") > 0) { Move(Location.Right.To); }
+            if (Input.GetAxis("Horizontal") < 0) { Move(Location.Left.To); }
+            if (Input.GetAxis("Vertical") > 0) { Move(Location.Up.To); }
+            if (Input.GetAxis("Vertical") < 0) { Move(Location.Down.To); }
+        }
     }
 
-    void ShiftPlayer(float x, float y, float z)
+    private void Move(Pos to)
     {
-        transform.localPosition = new Vector3(transform.localPosition.x + x * Time.fixedDeltaTime,
-                                              transform.localPosition.y + y * Time.fixedDeltaTime,
-                                              transform.localPosition.z + z * Time.fixedDeltaTime);
+        if (MazeGenerator.IsCorridor(to))
+        {
+            TargetLocation = to;
+            _moving = true;
+        }
     }
 }

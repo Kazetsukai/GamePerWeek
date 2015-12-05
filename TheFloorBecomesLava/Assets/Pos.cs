@@ -1,4 +1,7 @@
-﻿public class Pos
+﻿using System;
+using UnityEngine;
+
+public class Pos
 {
     public int X { get; internal set; }
     public int Y { get; internal set; }
@@ -10,6 +13,12 @@
 
     public Pos()
     {
+    }
+
+    public Pos(int x, int y)
+    {
+        X = x;
+        Y = y;
     }
 
     public Pos(Pos other)
@@ -27,6 +36,11 @@
         }
 
         return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return X.GetHashCode() ^ Y.GetHashCode();
     }
 
     public override string ToString()

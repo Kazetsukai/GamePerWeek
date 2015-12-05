@@ -26,13 +26,15 @@ public class WallBlock : MonoBehaviour
         }
     }
 
-    void Drop()
+    public void Drop()
     {
         _up = false;
     }
 
-    void Rise()
+    public void Rise()
     {
         _up = true;
     }
+
+    public bool IsUp { get { return _up; } }
 }
