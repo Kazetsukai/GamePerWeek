@@ -22,7 +22,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
 
     void FixedUpdate()
@@ -52,6 +53,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetAxis("Vertical") > 0) { Move(Location.Up.To); }
             if (Input.GetAxis("Vertical") < 0) { Move(Location.Down.To); }
         }
+
+        MazeGenerator.CheckLava(TargetLocation);
     }
 
     private void Move(Pos to)

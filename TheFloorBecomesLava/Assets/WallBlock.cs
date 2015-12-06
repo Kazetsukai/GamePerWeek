@@ -30,7 +30,6 @@ public class WallBlock : MonoBehaviour
                 Delay -= Time.fixedDeltaTime;
             else
             {
-                var randomFactor = Random.Range(0f, 1f);
                 transform.localPosition = new Vector3(
                     transform.localPosition.x,
                     transform.localPosition.y + Mathf.Clamp(target - transform.localPosition.y, -Time.fixedDeltaTime, Time.fixedDeltaTime),

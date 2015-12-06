@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 
 using Rand = UnityEngine.Random;
+using Microsoft.Win32;
+using System.IO;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -14,7 +17,14 @@ public class MazeGenerator : MonoBehaviour
     public GameObject ProtoWall;
     public GameObject Player;
     public GameObject ProtoGoal;
-    
+
+    public AudioSource BlipperSource;
+    public AudioSource LevelUpSource;
+    public AudioSource BurnSource;
+
+    public Canvas UICanvas;
+    public Text Text;
+
     public WallBlock[,] _wallGrid;
     public bool[,] _isCorridor;
     public bool[,] _inMaze;
@@ -27,19 +37,35 @@ public class MazeGenerator : MonoBehaviour
     private Pos _goalPos;
     private GameObject _goal;
 
-    public static float LavaSpeed { get { return 1f + Time.fixedTime * 0.01f; } }
+    public static float LavaSpeed { get { return 1f + Time.timeSinceLevelLoad * 0.01f; } }
+
+    bool _finished = false;
+    float _resetTime = 5;
+    public int _score = 0;
+    public int _highScore = 0;
+    public string _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "mazehighscore.txt");
 
     Func<Pos, bool> insideMaze;
 
     // Use this for initialization
     void Start()
     {
+        UICanvas.enabled = false;
+
         InitialiseGrid();
 
         GenerateMaze(new Pos(0, 0, 0));
         DelayLava(5);
 
         Player.transform.localPosition = WallCoordToReal(1, 1);
+
+        if (File.Exists(_fileName))
+        {
+            using (var highscoreFile = File.OpenText(_fileName))
+            {
+                int.TryParse(highscoreFile.ReadToEnd(), out _highScore);
+            }
+        }
     }
 
     private void DelayLava(float delay)
@@ -94,7 +120,22 @@ public class MazeGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Text.text = "Your score: " + _score + "\nHigh score: " + _highScore;
+    }
 
+    void FixedUpdate()
+    {
+        if (_finished)
+        {
+            _resetTime -= Time.fixedDeltaTime;
+
+            if (_resetTime < 0)
+                Application.LoadLevel(Application.loadedLevel);
+        }
+        else
+        {
+            _score += 1;
+        }
     }
 
     private void GenerateMaze(Pos start)
@@ -284,7 +325,32 @@ public class MazeGenerator : MonoBehaviour
         {
             var startPos = WallToAbstract(pos);
             GenerateMaze(startPos);
+            _score += 1000;
+            LevelUpSource.Play();
         }
     }
 
+    public void CheckLava(Pos pos)
+    {
+        if (_wallGrid[pos.X, pos.Y].LavaTime < 0)
+        {
+            // This block is lava
+            Destroy(Player);
+            BurnSource.Play();
+            BlipperSource.enabled = false;
+            _finished = true;
+
+            UICanvas.enabled = true;
+
+            if (_score > _highScore)
+            {
+                _highScore = _score;
+                
+                using (var highscoreFile = new StreamWriter(File.Open(_fileName, FileMode.Create)))
+                {
+                    highscoreFile.WriteLine(_highScore);
+                }
+            }
+        }
+    }
 }

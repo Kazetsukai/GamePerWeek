@@ -1,6 +1,3 @@
-* Lava
-* Sounds
 * Music
 * Powerups - speedup, stop lava
 * Score
-* "Almost" lava material
