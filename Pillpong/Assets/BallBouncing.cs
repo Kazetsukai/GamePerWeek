@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class BallBouncing : MonoBehaviour {
 
@@ -11,6 +12,9 @@ public class BallBouncing : MonoBehaviour {
     public AudioClip BallDie;
 
     AudioSource _audio;
+    Renderer _renderer;
+
+    public bool IsAlive { get; private set; }
 
     // Use this for initialization
     void Start () {
@@ -18,6 +22,9 @@ public class BallBouncing : MonoBehaviour {
         _rigidBody.AddForce(Vector2.left, ForceMode2D.Force);
 
         _audio = GetComponent<AudioSource>();
+        _renderer = GetComponent<Renderer>();
+
+        IsAlive = true;
 	}
 	
     void FixedUpdate()
@@ -43,9 +50,51 @@ public class BallBouncing : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.name.Contains("paddle"))
+        {
             _audio.PlayOneShot(PaddleHit);
+            Speed += 0.2f;
+        }
+
         if (col.gameObject.name.Contains("wall"))
             _audio.PlayOneShot(WallHit);
+
+    }
+
+    public IEnumerable DieAndRespawnWithSpeed(float speed)
+    {
+        IsAlive = false;
+        _audio.PlayOneShot(BallDie);
+
+        for (int i = 0; i < 2; i++)
+        {
+            _renderer.enabled = false;
+            yield return new WaitForSeconds(0.1f + 0.01f * i);
+            _renderer.enabled = true;
+            yield return new WaitForSeconds(0.1f + 0.01f * i);
+        }
+        
+        _renderer.enabled = false;
+        Speed = 0;
+        _rigidBody.MovePosition(Vector2.zero);
+
+        yield return new WaitForSeconds(2);
+
+        
+        for (int i = 0; i < 4; i++)
+        {
+            _renderer.enabled = false;
+            yield return new WaitForSeconds(0.1f + 0.01f * i);
+            _renderer.enabled = true;
+            yield return new WaitForSeconds(0.1f + 0.01f * i);
+        }
+        
+        Speed = speed;
+        IsAlive = true;
+        _audio.PlayOneShot(PaddleHit);
+
+        _rigidBody.velocity = Random.insideUnitCircle;
+        while (_rigidBody.velocity.magnitude < 0.1f)
+            _rigidBody.velocity = Random.insideUnitCircle;
 
     }
 }

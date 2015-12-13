@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LevelControl : MonoBehaviour {
 
@@ -9,6 +10,11 @@ public class LevelControl : MonoBehaviour {
     public PaddleController PaddleLeft;
     public PaddleController PaddleRight;
     public BallBouncing Ball;
+
+    public Text LeftScore;
+    public Text RightScore;
+    int _leftScore = 0;
+    int _rightScore = 0;
 
     public float LevelWidth;
     public float LevelHeight;
@@ -55,6 +61,25 @@ public class LevelControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+
+        if (Ball.IsAlive)
+        {
+            var pos = Ball.transform.localPosition;
+
+            if ((pos - PaddleLeft.CenterLocation).magnitude > PaddleLeft.Radius * 1.2f &&
+                (pos - PaddleRight.CenterLocation).magnitude > PaddleRight.Radius * 1.2f &&
+                (pos.x < -(LevelWidth + PaddleWidth * 1.1f) / 2 || pos.x > (LevelWidth + PaddleWidth * 1.1f) / 2) || (pos.y < -LevelHeight * 0.7f) || (pos.y > LevelHeight * 0.7f))
+            {
+                if (pos.x < 0)
+                    _rightScore++;
+                if (pos.x > 0)
+                    _leftScore++;
+
+                StartCoroutine(Ball.DieAndRespawnWithSpeed(3 + 0.1f * (_leftScore + _rightScore)).GetEnumerator());
+
+                LeftScore.text = _leftScore.ToString();
+                RightScore.text = _rightScore.ToString();
+            }
+        }
+    }
 }
