@@ -731,7 +731,7 @@ MonoBehaviour:
   Ball: {fileID: 847429023}
   LeftScore: {fileID: 2012564359}
   RightScore: {fileID: 753472494}
-  LevelWidth: 9
+  LevelWidth: 8
   LevelHeight: 7
 --- !u!1 &1931898238
 GameObject:
