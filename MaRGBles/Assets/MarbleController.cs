@@ -11,7 +11,7 @@ public class MarbleController : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         var goal = col.gameObject.GetComponent<GoalController>();
-        if (goal != null)
+        if (goal != null && GetComponent<Renderer>().material.name.StartsWith(LayerMask.LayerToName(goal.gameObject.layer)))
         {
             goal.TriggerGoal();
             gameObject.SetActive(false);

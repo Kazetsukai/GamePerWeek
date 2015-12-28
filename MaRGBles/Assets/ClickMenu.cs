@@ -107,7 +107,10 @@ public class ClickMenu : MonoBehaviour {
             if (goal.gameObject.activeSelf)
                 finished = false;
         }
-        Debug.Log(finished);
+        if (finished)
+        {
+            Application.LoadLevel((Application.loadedLevel + 1) % Application.levelCount);
+        }
 	}
 
     private void HideSelectionBlobs()
