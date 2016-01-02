@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Test : MonoBehaviour {
+public class Control : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -10,6 +10,6 @@ public class Test : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        _controller = GetComponent<Animator>();
+	
 	}
 }
