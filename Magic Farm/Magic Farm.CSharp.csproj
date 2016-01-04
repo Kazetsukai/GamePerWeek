@@ -81,6 +81,8 @@
     <Compile Include="Assets\3rd Party\Micro Farmer\Scripts\View_Animation\MaterialChange.cs" />
     <Compile Include="Assets\3rd Party\Micro Farmer\Scripts\View_Animation\characterButton.cs" />
     <Compile Include="Assets\Control.cs" />
+    <Compile Include="Assets\Follow.cs" />
+    <Compile Include="Assets\PlantGrow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party\Micro Farmer\ReadMe_[ v 1.0 ]_ 12_12.txt" />
