@@ -28,6 +28,7 @@ GameObject:
   - 135: {fileID: 13564536}
   - 23: {fileID: 2347294}
   - 114: {fileID: 11423454}
+  - 82: {fileID: 8293390}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -122,6 +123,80 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134544}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!82 &8293390
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134544}
+  m_Enabled: 0
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!108 &10829262
 Light:
   m_ObjectHideFlags: 1
@@ -166,6 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01bd9d0257a1f54b85ffe819280e5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProtoPipe: {fileID: 152462, guid: 6dbb23d841dd1cc42a5409c05706d586, type: 2}
+  OnSound: {fileID: 8300000, guid: cd6c7c8d78ef9674782881a6e18f7b86, type: 3}
+  OffSound: {fileID: 8300000, guid: 1a82640462d714348b03d6ca02922d7c, type: 3}
 --- !u!135 &13564536
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -216,7 +294,35 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: ProtoPipe
+      value: 
+      objectReference: {fileID: 152462, guid: 6dbb23d841dd1cc42a5409c05706d586, type: 2}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: cd6c7c8d78ef9674782881a6e18f7b86, type: 3}
+    - target: {fileID: 0}
+      propertyPath: OffSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a82640462d714348b03d6ca02922d7c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134544}
