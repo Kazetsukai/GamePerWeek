@@ -1,5 +1,0 @@
-
-* Planting
-* Growing
-* Hoeing
-* limit planting to hoed areas
